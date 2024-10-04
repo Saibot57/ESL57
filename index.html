@@ -3,42 +3,129 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Educational Resources</title>
+    <title>Welcome to Educational Resources</title>
     <link href="https://fonts.googleapis.com/css2?family=Lora:wght@400;700&display=swap" rel="stylesheet">
-    <link rel="stylesheet" href="styles.css">
+    <style>
+        body, html {
+            margin: 0;
+            padding: 0;
+            height: 100%;
+            font-family: 'Lora', serif;
+        }
+        .landing-container {
+            position: relative;
+            width: 100%;
+            height: 100%;
+            background-image: url('https://source.unsplash.com/1920x1080/?education');
+            background-size: cover;
+            background-position: center;
+        }
+        /* Overlay for password input */
+        .password-overlay {
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            background: rgba(255, 255, 255, 0.9);
+            padding: 30px;
+            border-radius: 10px;
+            box-shadow: 0 0 10px rgba(0,0,0,0.3);
+            display: none; /* Hidden by default */
+            z-index: 2;
+            width: 300px;
+            text-align: center;
+        }
+        .password-overlay input[type="password"] {
+            width: 80%;
+            padding: 10px;
+            margin-bottom: 15px;
+            border: 1px solid #ccc;
+            border-radius: 4px;
+            font-size: 1em;
+        }
+        .password-overlay button {
+            padding: 10px 20px;
+            border: none;
+            background-color: #4a90e2;
+            color: #fff;
+            border-radius: 4px;
+            cursor: pointer;
+            font-size: 1em;
+        }
+        .password-overlay button:hover {
+            background-color: #357ABD;
+        }
+        /* Optional: Add a semi-transparent background when overlay is visible */
+        .overlay-background {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0,0,0,0.5);
+            display: none; /* Hidden by default */
+            z-index: 1;
+        }
+        /* Style for error message */
+        .error-message {
+            color: red;
+            display: none;
+            margin-top: 10px;
+        }
+    </style>
 </head>
 <body>
-    <div id="menu">
-        <ul>
-            <li onclick="toggleSubmenu(this)" aria-expanded="false">English
-                <ul>
-                    <li>English1</li>
-                    <li>English2</li>
-                </ul>
-            </li>
-            <li onclick="toggleSubmenu(this)" aria-expanded="false">Historia
-                <ul>
-                    <li>Historia1</li>
-                    <li>Historia2</li>
-                </ul>
-            </li>
-            <li onclick="toggleSubmenu(this)" aria-expanded="false">Tema
-                <ul>
-                    <li>Tema1</li>
-                    <li>Tema2</li>
-                </ul>
-            </li>
-            <li onclick="toggleSubmenu(this)" aria-expanded="false">Litteratur
-                <ul>
-                    <li>Litteratur1</li>
-                    <li>Litteratur2</li>
-                </ul>
-            </li>
-        </ul>
+    <div class="landing-container">
+        <!-- Optional: Semi-transparent background -->
+        <div class="overlay-background" id="overlayBackground"></div>
+
+        <!-- Password Input Overlay -->
+        <div class="password-overlay" id="passwordOverlay">
+            <h2>Enter Password</h2>
+            <input type="password" id="passwordInput" placeholder="Password">
+            <br>
+            <button onclick="checkPassword()">Submit</button>
+            <p class="error-message" id="errorMessage">Incorrect Password. Try again.</p>
+        </div>
+
+        <!-- Image Map -->
+        <img src="https://source.unsplash.com/1920x1080/?education" usemap="#landingMap" style="width:100%; height:100%; object-fit: cover;">
+        <map name="landingMap">
+            <!-- Define a clickable area (rectangle in this example) -->
+            <!-- Adjust coords based on your image -->
+            <!-- Example coordinates: left, top, right, bottom -->
+            <area shape="rect" coords="800,500,1120,820" alt="Secret Area" href="#" onclick="showPasswordBox()">
+        </map>
     </div>
-    <div id="content">
-        <!-- Content will be dynamically added here -->
-    </div>
-    <script src="script.js"></script>
+
+    <script>
+        function showPasswordBox() {
+            document.getElementById('passwordOverlay').style.display = 'block';
+            document.getElementById('overlayBackground').style.display = 'block';
+        }
+
+        function checkPassword() {
+            const enteredPassword = document.getElementById('passwordInput').value;
+            const correctPassword = 'FunPassword123'; // Set your desired password here
+
+            if (enteredPassword === correctPassword) {
+                // Redirect to main content page
+                window.location.href = 'main.html';
+            } else {
+                // Show error message
+                document.getElementById('errorMessage').style.display = 'block';
+                // Optional: Clear the input field
+                document.getElementById('passwordInput').value = '';
+            }
+        }
+
+        // Optional: Close the password box when clicking outside of it
+        document.getElementById('overlayBackground').addEventListener('click', function() {
+            document.getElementById('passwordOverlay').style.display = 'none';
+            document.getElementById('overlayBackground').style.display = 'none';
+            document.getElementById('errorMessage').style.display = 'none';
+            document.getElementById('passwordInput').value = '';
+        });
+    </script>
 </body>
 </html>
